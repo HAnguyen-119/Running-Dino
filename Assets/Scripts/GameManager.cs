@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
         SpawnManager.Instance.UpcomingBackgroundChange = false;
         UIHandler.Instance.gameOverPanel.SetActive(false);
 
+        //Wait for the transition to complete
         yield return new WaitForSeconds(1.5f);
 
         UIHandler.Instance.highScoreText.text = "High score : " + highScore;
