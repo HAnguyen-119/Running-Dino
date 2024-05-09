@@ -12,15 +12,6 @@ public class LeaderboardDisplay : MonoBehaviour
 
     private void Awake()
     { 
-        //Initial leaderboard
-        if (highScoreEntries.Count < numberOfEntry)
-        {
-            AddNewEntry("Han", 2650);
-            AddNewEntry("Adu vjp", 1474);
-            AddNewEntry("Abc", 1225);
-            AddNewEntry("Han", 934);
-            AddNewEntry("wasd", 537);
-        }
         UpdateScoreDisplay();
     }
 
@@ -50,13 +41,13 @@ public class LeaderboardDisplay : MonoBehaviour
                 playerScores[i].text = "N/A";
             }
         }
+        Leaderboard.Instance.SaveData(highScoreEntries);
     }
 
     public void AddNewEntry(string name, int score)
     {
         highScoreEntries.Add(new HighScoreEntry(name, score));
         UpdateScoreDisplay();
-        Leaderboard.Instance.SaveData(highScoreEntries);
     }
 
     public int GetHighestScore()

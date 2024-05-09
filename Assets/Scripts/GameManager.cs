@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        leaderboardDisplay.Load();
         highScore = leaderboardDisplay.GetHighestScore();
         StartCoroutine(UpdateScore());
     }
