@@ -793,7 +793,7 @@ GameObject:
   - component: {fileID: 201038452}
   - component: {fileID: 201038451}
   m_Layer: 0
-  m_Name: DinoSprites - doux 1_4
+  m_Name: Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3982,9 +3982,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 918951915}
-  - {fileID: 695617679}
-  - {fileID: 1224189511}
   - {fileID: 1556669712}
+  - {fileID: 1224189511}
+  - {fileID: 695617679}
   - {fileID: 801512752}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4126,7 +4126,7 @@ GameObject:
   - component: {fileID: 695617679}
   - component: {fileID: 695617680}
   m_Layer: 0
-  m_Name: _Complete_static_BG_(288 x 208) (2)
+  m_Name: Background part 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5138,7 +5138,7 @@ GameObject:
   - component: {fileID: 918951915}
   - component: {fileID: 918951916}
   m_Layer: 0
-  m_Name: _Complete_static_BG_(288 x 208)
+  m_Name: Background part 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5893,7 +5893,7 @@ GameObject:
   - component: {fileID: 1016437139}
   - component: {fileID: 1016437138}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Credit text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6138,7 +6138,7 @@ GameObject:
   - component: {fileID: 1078626151}
   - component: {fileID: 1078626150}
   m_Layer: 0
-  m_Name: DinoSprites - tard_0
+  m_Name: Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7017,6 +7017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39724f3462e5d9841b76503cc394f9c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 5
   score: 0
   highScore: 20
   isStart: 0
@@ -7051,7 +7052,7 @@ GameObject:
   - component: {fileID: 1211550469}
   - component: {fileID: 1211550468}
   m_Layer: 0
-  m_Name: DinoSprites - mort_0
+  m_Name: Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7262,7 +7263,7 @@ GameObject:
   - component: {fileID: 1224189511}
   - component: {fileID: 1224189512}
   m_Layer: 0
-  m_Name: _Complete_static_BG_(288 x 208) (1)
+  m_Name: Background part 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7654,7 +7655,7 @@ GameObject:
   - component: {fileID: 1298306168}
   - component: {fileID: 1298306167}
   m_Layer: 0
-  m_Name: DinoSprites - vita_0
+  m_Name: Green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9130,7 +9131,7 @@ GameObject:
   - component: {fileID: 1556669712}
   - component: {fileID: 1556669713}
   m_Layer: 0
-  m_Name: _Complete_static_BG_(288 x 208) (3)
+  m_Name: Background part 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11901,11 +11902,11 @@ SceneRoots:
   m_Roots:
   - {fileID: 502829331}
   - {fileID: 662072230}
-  - {fileID: 1216379187}
+  - {fileID: 1468454510}
   - {fileID: 8830490769879205176}
   - {fileID: 1571100155}
   - {fileID: 1199356313}
   - {fileID: 1085903194}
   - {fileID: 305135497}
-  - {fileID: 1468454510}
   - {fileID: 1373640148}
+  - {fileID: 1216379187}
