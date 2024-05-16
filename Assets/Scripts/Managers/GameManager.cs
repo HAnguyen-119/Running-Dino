@@ -8,21 +8,19 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public static bool GameOver = false;
 
-    [SerializeField] private float speed = 5;
     [SerializeField] private int score = 0;
     [SerializeField] private int highScore = 0;
+
+    [SerializeField] private float speed = 5;
+    public float Speed { get => speed; set => speed = value; }
+
     [SerializeField] private bool isStart = false;
+    public bool IsStart { get => isStart; set => isStart = value; }
     [SerializeField] private bool isPause = false;
-    [SerializeField] private bool isReplay = false;
+    public bool IsPause { get => isPause; set => isPause = value; }
+
     [SerializeField] private int countdownTime = 3;
-
-    public float Speed { get { return speed; } set { speed = value; } }
-    public bool IsStart { get { return isStart; } set { isStart = value; } }
-    public bool IsPause { get { return isPause; } set { isPause = value; } }
-    public bool IsReplay { get { return isReplay; } set { isReplay = value; } }
-
-    public int CountdownTime { get { return countdownTime; } set { countdownTime = value; } }
-    public LeaderboardDisplay leaderboardDisplay;
+    public int CountdownTime { get => countdownTime; set => countdownTime = value; }
 
     private void Awake()
     {
@@ -33,22 +31,21 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
-    public void StartGame()
+    void Start()
     {
-        leaderboardDisplay.Load();
-        highScore = leaderboardDisplay.GetHighestScore();
+        //Leaderboard.Instance.Load();
+        highScore = Leaderboard.Instance.GetHighestScore();
         StartCoroutine(UpdateScore());
     }
 
     void Update()
     {
-        if (SceneManager.GetActiveScene().buildIndex != 0 && Input.GetKeyDown(KeyCode.P) && !GameOver && isStart)
+        if (Input.GetKeyDown(KeyCode.P) && !GameOver && isStart)
         {
             ChangePaused();
-        }  
+        }
     }
 
     private void ChangePaused()
@@ -57,13 +54,13 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0;
             isPause = true;
-            UIHandler.Instance.pausePanel.SetActive(true);
+            GameplayUI.Instance.PausePanel.SetActive(true);
         } 
         else
         {
             Time.timeScale = 1;
             isPause = false;
-            UIHandler.Instance.pausePanel.SetActive(false);
+            GameplayUI.Instance.PausePanel.SetActive(false);
         }
     }
 
@@ -76,28 +73,28 @@ public class GameManager : MonoBehaviour
         SpawnManager.Instance.MinInterval = 1.2f;
         SpawnManager.Instance.MaxInterval = 2.2f;
         SpawnManager.Instance.CurrentSprite = 0;
-        SpawnManager.Instance.UpcomingBackgroundChange = false;
-        UIHandler.Instance.gameOverPanel.SetActive(false);
 
         //Wait for the transition to complete
         yield return new WaitForSeconds(1.5f);
 
-        UIHandler.Instance.highScoreText.text = "High score : " + highScore;
-        UIHandler.Instance.scoreText.text = "Score : " + score;
+        GameplayUI.Instance.UpdateHighScore(highScore);
+        GameplayUI.Instance.UpdateScore(score);
         
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1);
 
-        UIHandler.Instance.countdown.gameObject.SetActive(true);
+        GameplayUI.Instance.CountdownText.gameObject.SetActive(true);
         int timeLeft = countdownTime;
         while (timeLeft > 0)
         {
-            UIHandler.Instance.countdown.text = Convert.ToString(timeLeft);
+            GameplayUI.Instance.CountdownText.text = timeLeft.ToString();
             yield return new WaitForSeconds(1);
             timeLeft--;
         }
 
-        UIHandler.Instance.countdown.gameObject.SetActive(false);
-        UIHandler.Instance.pauseText.gameObject.SetActive(true);
+        GameplayUI.Instance.CountdownText.gameObject.SetActive(false);
+        GameplayUI.Instance.PauseText.gameObject.SetActive(true);
+        GameplayUI.Instance.HighScoreText.gameObject.SetActive(true);
+        GameplayUI.Instance.ScoreText.gameObject.SetActive(true);
 
         IsStart = true;
         SpawnManager.Instance.SpawnObstacle();
@@ -111,38 +108,24 @@ public class GameManager : MonoBehaviour
             {
                 highScore = score;
             }
-            if (score == leaderboardDisplay.GetHighestScore() + 1)
+            if (score == Leaderboard.Instance.GetHighestScore() + 1)
             {
-                StartCoroutine(NewHighScore());
+                GameplayUI.Instance.OnNewHighScore();
             }
-            UIHandler.Instance.highScoreText.text = "High score : " + highScore;
-            UIHandler.Instance.scoreText.text = "Score : " + score;
+            GameplayUI.Instance.UpdateHighScore(highScore);
+            GameplayUI.Instance.UpdateScore(score);
         }
 
         //Stop spawning obstacles and pause background music if game over
-        SpawnManager.Instance.StopSpawning();
+        //SpawnManager.Instance.StopSpawning();
         SoundManager.Instance.AudioSource.Stop();
-        UIHandler.Instance.pauseText.gameObject.SetActive(false);
+        GameplayUI.Instance.PauseText.gameObject.SetActive(false);
         IsStart = false;
 
         //Update the top 5 scores on leaderboard
-        if (score >= leaderboardDisplay.GetLowestScoreOnBoard())
+        if (score >= Leaderboard.Instance.GetLowestScoreOnBoard())
         {
-            leaderboardDisplay.AddNewEntry(UIHandler.Instance.playerName.text, score);
-            leaderboardDisplay.Save();
-        }
-    }
-
-    IEnumerator NewHighScore()
-    {
-        int time = 5;
-        while (time > 0 && !GameOver)
-        {
-            UIHandler.Instance.newHighScoreText.gameObject.SetActive(true);
-            yield return new WaitForSeconds(0.5f);
-            UIHandler.Instance.newHighScoreText.gameObject.SetActive(false);
-            yield return new WaitForSeconds(0.5f);
-            time--;
+            Leaderboard.Instance.AddNewEntry(MenuUI.Instance.PlayerName.text, score);
         }
     }
 }

@@ -5,14 +5,6 @@ public class ObstacleMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float leftBound = -20;
-
-    private SpawnManager spawnManager;
-
-    private void Awake()
-    {
-        spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();    
-    }
-
     void Update()
     {
         if (!GameManager.GameOver)
@@ -25,12 +17,6 @@ public class ObstacleMovement : MonoBehaviour
             {
                 SpawnManager.Instance.GetPool().Release(gameObject);
             }
-        }
-
-        //Release obstacle to pool if the active scene is Menu
-        if (SceneManager.GetActiveScene().buildIndex == 0 && gameObject.activeSelf)
-        {
-            SpawnManager.Instance.GetPool().Release(gameObject);
         }
     }
 }

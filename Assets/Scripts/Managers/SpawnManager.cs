@@ -21,11 +21,11 @@ public class SpawnManager : MonoBehaviour
     public float MaxInterval { get { return maxInterval; } set { maxInterval = value; } }
 
     [SerializeField] private Vector2 spawnPosition = new Vector2(10, 0);
-    [SerializeField] private bool poolCollectonCheck = true;
+    [SerializeField] private bool poolCollectionCheck = true;
     [SerializeField] private int poolDefaultCapacity = 10;
     [SerializeField] private int poolMaxSize = 20;
-    [SerializeField] private bool upcomingBackgroundChange = false;
-    public bool UpcomingBackgroundChange { get { return upcomingBackgroundChange; } set { upcomingBackgroundChange = value; } }
+
+    [SerializeField] private BackgroundChanging backgroundChanging;
 
     private void Awake()
     {
@@ -36,10 +36,10 @@ public class SpawnManager : MonoBehaviour
         }
         Instance = this;
   
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         obstaclePool = new ObjectPool<GameObject>(CreateObstacle, 
-            OnGetFromPool, OnReleaseToPool, OnDestroyObstacle, poolCollectonCheck, poolDefaultCapacity, poolMaxSize);
+            OnGetFromPool, OnReleaseToPool, OnDestroyObstacle, poolCollectionCheck, poolDefaultCapacity, poolMaxSize);
     }
 
     //Create a new obstacle
@@ -74,17 +74,12 @@ public class SpawnManager : MonoBehaviour
     {
         currentCoroutine = StartCoroutine(StartSpawning());
     }
-
-    public void StopSpawning()
-    {
-        StopCoroutine(currentCoroutine);
-    }
     
     IEnumerator StartSpawning()
     {
         while (!GameManager.GameOver)
         {
-            if (!upcomingBackgroundChange)
+            if (!backgroundChanging.UpcomingBackgroundChange)
             {
                 //Decrease the obstacle spawn interval over time
                 spawnInterval = Random.Range(minInterval, maxInterval);
@@ -94,11 +89,16 @@ public class SpawnManager : MonoBehaviour
             else
             {
                 //No obstacles will be spawned while the background is changing
-                spawnInterval = 20 / GameManager.Instance.Speed + 3;
+                spawnInterval = backgroundChanging.ScreenSize / GameManager.Instance.Speed + 3;
             }
             //Get an obstacle from pool
             obstaclePool.Get();
             yield return new WaitForSeconds(spawnInterval);
         }
+    }
+
+    public void StopSpawning()
+    {
+        StopCoroutine(currentCoroutine);
     }
 }

@@ -2,13 +2,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Image image;
-    public RectTransform buttonText;
     private Vector2 upPos;
     private Vector2 downPos;
+
+    [SerializeField] private Sprite buttonUpImage;
+    [SerializeField] private Sprite buttonDownImage;
     [SerializeField] private Vector3 offset = new Vector2(0, -4);
+
+    public RectTransform buttonText;
  
     private void Awake()
     {
@@ -19,13 +23,13 @@ public class Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        image.sprite = UIHandler.Instance.buttonDownImage;
+        image.sprite = buttonDownImage;
         buttonText.localPosition = downPos;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        image.sprite = UIHandler.Instance.buttonUpImage;
+        image.sprite = buttonUpImage;
         buttonText.localPosition = upPos;
     }
 }

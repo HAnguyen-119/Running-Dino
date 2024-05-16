@@ -10,11 +10,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D playerRb;
     private Animator playerAnimator;
 
-    public List<Sprite> dinoImages;
-    public List<RuntimeAnimatorController> animatorControllers;
-
     [SerializeField] private float jumpForce = 5;
     [SerializeField] private bool isOnGround = true;
+
+    public List<Sprite> dinoImages;
+    public List<RuntimeAnimatorController> animatorControllers;
 
     private void Awake()
     {
@@ -22,8 +22,10 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
 
         //Set the player sprite and animator controller based on the dino that player chose in Menu
-        GetComponent<SpriteRenderer>().sprite = dinoImages[UIHandler.Instance.CurrentImage];
-        playerAnimator.runtimeAnimatorController = animatorControllers[UIHandler.Instance.CurrentImage];
+        //GetComponent<SpriteRenderer>().sprite = dinoImages[UIHandler.Instance.CurrentImage];
+        //playerAnimator.runtimeAnimatorController = animatorControllers[UIHandler.Instance.CurrentImage];
+        GetComponent<SpriteRenderer>().sprite = dinoImages[MenuUI.Instance.CurrentImageIndex];
+        playerAnimator.runtimeAnimatorController = animatorControllers[MenuUI.Instance.CurrentImageIndex];
     }
 
     void Update()
@@ -55,7 +57,8 @@ public class PlayerController : MonoBehaviour
             SoundManager.Instance.PlayDeathSoundEffect();
             GameManager.GameOver = true;
             playerAnimator.SetBool("Death", true);
-            UIHandler.Instance.gameOverPanel.SetActive(true);
+            //UIHandler.Instance.gameOverPanel.SetActive(true);
+            GameplayUI.Instance.GameOverPanel.SetActive(true);
         }
     }
 }

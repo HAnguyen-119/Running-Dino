@@ -7,7 +7,11 @@ public class Leaderboard : MonoBehaviour
 {
     public static Leaderboard Instance;
     public DataSaver dataSaver;
-    
+
+    private List<HighScoreEntry> highScoreEntries;
+    public List<HighScoreEntry> HighScoreEntries { get => highScoreEntries; }
+    private readonly int numberOfEntries = 5;
+
     private void Awake()
     {
         if (Instance != null)
@@ -22,6 +26,9 @@ public class Leaderboard : MonoBehaviour
         {
             Directory.CreateDirectory(Application.persistentDataPath + "/HighScores/");
         };
+
+        highScoreEntries = LoadData();
+        highScoreEntries.Sort((HighScoreEntry x, HighScoreEntry y) => y.Score.CompareTo(x.Score));
     }
 
     //Save current leaderboard
@@ -44,6 +51,26 @@ public class Leaderboard : MonoBehaviour
             dataSaver = serializer.Deserialize(stream) as DataSaver;
         }
         return dataSaver.highScoreEntries;
+    }
+
+    public void AddNewEntry(string name, int score)
+    {
+        highScoreEntries.Add(new HighScoreEntry(name, score));
+        highScoreEntries.Sort((HighScoreEntry x, HighScoreEntry y) => y.Score.CompareTo(x.Score));
+        //UpdateScoreDisplay();
+        SaveData(highScoreEntries);
+    }
+
+    public int GetHighestScore()
+    {
+        if (highScoreEntries.Count == 0) return 0;
+        return highScoreEntries[0].Score;
+    }
+
+    public int GetLowestScoreOnBoard()
+    {
+        if (highScoreEntries.Count < numberOfEntries) return 0;
+        return highScoreEntries[numberOfEntries - 1].Score;
     }
 
     [System.Serializable]
