@@ -11,6 +11,7 @@ public class Leaderboard : MonoBehaviour
     private List<HighScoreEntry> highScoreEntries;
     public List<HighScoreEntry> HighScoreEntries { get => highScoreEntries; }
     private readonly int numberOfEntries = 5;
+    private readonly int maxNumberOfEntries = 10;
 
     private void Awake()
     {
@@ -57,6 +58,10 @@ public class Leaderboard : MonoBehaviour
     {
         highScoreEntries.Add(new HighScoreEntry(name, score));
         highScoreEntries.Sort((HighScoreEntry x, HighScoreEntry y) => y.Score.CompareTo(x.Score));
+        if (highScoreEntries.Count > maxNumberOfEntries)
+        {
+            highScoreEntries.RemoveAt(maxNumberOfEntries);
+        }
         //UpdateScoreDisplay();
         SaveData(highScoreEntries);
     }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ObstacleMovement : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class ObstacleMovement : MonoBehaviour
             //Rlease obstacle to pool if it's out of bound
             if (transform.position.x < leftBound || !GameManager.Instance.IsStart)
             {
-                SpawnManager.Instance.GetPool().Release(gameObject);
+                SpawnManager.Instance.Pool.Release(gameObject);
             }
         }
     }

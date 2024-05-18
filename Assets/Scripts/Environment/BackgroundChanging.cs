@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class BackgroundChanging : MonoBehaviour
 {
-    public List<Sprite> backgrounds;
-    public List<GameObject> backgroundParts;
-    public List<GameObject> terrains;
+    private Coroutine currentCoroutine = null;
+
+    [SerializeField] private List<Sprite> backgrounds;
+    [SerializeField] private List<GameObject> backgroundParts;
+    [SerializeField] List<GameObject> terrains;
 
     [SerializeField] private bool upcomingBackgroundChange = false;
     public bool UpcomingBackgroundChange { get => upcomingBackgroundChange; set => upcomingBackgroundChange = value; }
 
-    [SerializeField] private float changeInterval = 20; //Change the background every 20 seconds
-    [SerializeField] private int currentBackground = 0;
-    [SerializeField] private int currentTerrain = 0;
-    private Coroutine currentCoroutine = null;
+    [SerializeField] private float changeInterval = 20; 
+    [SerializeField] private int currentBackgroundIndex = 0;
+    [SerializeField] private int currentTerrainIndex = 0;
     private float screenSize;
     public float ScreenSize { get => screenSize; }
 
@@ -46,8 +47,8 @@ public class BackgroundChanging : MonoBehaviour
             if (!GameManager.GameOver)
             {
                 //Change to the next background in the list
-                currentBackground = (currentBackground + 1) % backgrounds.Count;
-                SpawnManager.Instance.CurrentSprite = currentBackground;
+                currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.Count;
+                SpawnManager.Instance.CurrentSpriteIndex = currentBackgroundIndex;
                 SceneTransition.Instance.Transition();
                 upcomingBackgroundChange = false;
 
@@ -55,13 +56,13 @@ public class BackgroundChanging : MonoBehaviour
                 yield return new WaitForSeconds(1);
                 foreach (GameObject part in backgroundParts)
                 {
-                    part.GetComponent<SpriteRenderer>().sprite = backgrounds[currentBackground];
+                    part.GetComponent<SpriteRenderer>().sprite = backgrounds[currentBackgroundIndex];
                 }
 
                 //Change to the next terrain in the list
-                terrains[currentTerrain].SetActive(false);
-                terrains[(currentTerrain + 1) % terrains.Count].SetActive(true);
-                currentTerrain = (currentTerrain + 1) % terrains.Count;
+                terrains[currentTerrainIndex].SetActive(false);
+                terrains[(currentTerrainIndex + 1) % terrains.Count].SetActive(true);
+                currentTerrainIndex = (currentTerrainIndex + 1) % terrains.Count;
             }
             else
             {

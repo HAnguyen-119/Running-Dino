@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
 
         SpawnManager.Instance.MinInterval = 1.2f;
         SpawnManager.Instance.MaxInterval = 2.2f;
-        SpawnManager.Instance.CurrentSprite = 0;
+        SpawnManager.Instance.CurrentSpriteIndex = 0;
 
         //Wait for the transition to complete
         yield return new WaitForSeconds(1.5f);

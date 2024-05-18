@@ -6,19 +6,22 @@ using UnityEngine.Pool;
 public class SpawnManager : MonoBehaviour
 {
     public static SpawnManager Instance;
-    public GameObject obstacle;
-    private ObjectPool<GameObject> obstaclePool;
-    public List<Sprite> obstacleSprites;
+
     private Coroutine currentCoroutine = null;
-    private int currentSprite = 0;
-    public int CurrentSprite { get { return currentSprite; } set { currentSprite = value; } }
+    [SerializeField] private GameObject obstacle;
+    [SerializeField] private List<Sprite> obstacleSprites;
+    private ObjectPool<GameObject> obstaclePool;
+    public ObjectPool<GameObject> Pool { get => obstaclePool; }
+    private int currentSpriteIndex = 0;
+    public int CurrentSpriteIndex { get => currentSpriteIndex; set => currentSpriteIndex = value; }
+
 
     [SerializeField] private float spawnInterval = 2.0f;
-    public float SpawnInterval { get { return spawnInterval; } set { spawnInterval = value; } }
+    public float SpawnInterval { get => spawnInterval; set => spawnInterval = value; } 
     [SerializeField] private float minInterval = 1.2f;
-    public float MinInterval { get { return minInterval; } set { minInterval = value; } }
+    public float MinInterval { get => minInterval; set => minInterval = value; } 
     [SerializeField] private float maxInterval = 2.2f;
-    public float MaxInterval { get { return maxInterval; } set { maxInterval = value; } }
+    public float MaxInterval { get => maxInterval; set => maxInterval = value; } 
 
     [SerializeField] private Vector2 spawnPosition = new Vector2(10, 0);
     [SerializeField] private bool poolCollectionCheck = true;
@@ -52,7 +55,7 @@ public class SpawnManager : MonoBehaviour
     {
         obstacleInstance.SetActive(true);
         obstacleInstance.transform.position = spawnPosition;
-        obstacleInstance.GetComponent<SpriteRenderer>().sprite = obstacleSprites[currentSprite];
+        obstacleInstance.GetComponent<SpriteRenderer>().sprite = obstacleSprites[currentSpriteIndex];
     }
 
     private void OnReleaseToPool(GameObject obstacleInstance)
@@ -63,11 +66,6 @@ public class SpawnManager : MonoBehaviour
     private void OnDestroyObstacle(GameObject obstacleInstance)
     {
         Destroy(obstacleInstance);
-    }
-
-    public ObjectPool<GameObject> GetPool()
-    {
-        return obstaclePool;
     }
 
     public void SpawnObstacle()
