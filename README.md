@@ -1,5 +1,6 @@
 # Running Dino
- A game based on Google Dino Game
+ A game based on Google Dino Game 
+ Unity Editor version : 2022.3.16f1
  
 Link to play : https://hanguyen-119.itch.io/running-dino
  
